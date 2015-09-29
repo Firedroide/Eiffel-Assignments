@@ -1,0 +1,6 @@
+1.	name:			Query
+2.	buildings:		Query
+3.	add_line:		Command
+4.	connecting_lines:	Query
+5.	move_all:		Command
+6.	north:			Query
