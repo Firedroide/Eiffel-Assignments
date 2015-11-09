@@ -1,0 +1,10 @@
+**/EIFGENs/
+*.rc
+*.exe
+
+02_objects/
+04_interface/
+06_object_creation/
+08_control/
+
+assignment_1/
