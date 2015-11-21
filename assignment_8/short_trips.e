@@ -20,10 +20,6 @@ feature -- Explore Zurich
 
 feature {NONE} -- Implementation
 
-	-- Problems this code has:
-	-- Copy-paste programming for "north", "south"
-	-- -> Tradeoff between code repetition and added complexity from adding a new method
-
 	highlight_reachable (s: STATION; t: REAL_64)
 			-- Highight stations reachable from `s' within `t' seconds.
 		require
@@ -33,28 +29,22 @@ feature {NONE} -- Implementation
 			station_view: STATION_VIEW
 			t_dash: REAL_64
 		do
-			across
-				s.lines as l
-			loop
-				north := l.item.next_station (s, l.item.north_terminal)
-				south := l.item.next_station (s, l.item.south_terminal)
+			if t >= 0 then
+				Zurich_map.station_view (s).highlight
 
-				if north /= Void then
-					t_dash := t - l.item.time (s, north)
-					station_view := Zurich_map.station_view (north)
+				across
+					s.lines as l
+				loop
+					north := l.item.next_station (s, l.item.north_terminal)
+					south := l.item.next_station (s, l.item.south_terminal)
 
-					if t_dash >= 0 and not station_view.is_highlighted then
-						station_view.highlight
+					if north /= Void then
+						t_dash := t - l.item.time (s, north)
 						highlight_reachable (north, t_dash)
 					end
-				end
 
-				if south /= Void then
-					t_dash := t - l.item.time (s, south)
-					station_view := Zurich_map.station_view (south)
-
-					if t_dash >= 0 and not station_view.is_highlighted then
-						station_view.highlight
+					if south /= Void then
+						t_dash := t - l.item.time (s, south)
 						highlight_reachable (south, t_dash)
 					end
 				end
